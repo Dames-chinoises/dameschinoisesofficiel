@@ -104,7 +104,6 @@ public class Plateau extends JPanel {
 		return pion;
 	}
 
-	
 
 	public Cases_du_plateau getCase(int i, int j){
 		return (Cases_du_plateau) getComponent(j+i*taille);
@@ -133,7 +132,6 @@ public class Plateau extends JPanel {
 
 	public void selectionnerCases(int i, int j, Couleur_du_pion couleur){
 		Pion pion = (Pion)(getCase(i, j).getComponent(0));
-		
 		if(i-1>=0 && j-1>=0 && getCase(i-1, j-1).getComponentCount()==0 ){ //si la case en haut à gauche existe et qu'il n'y a pas de pions
 				getCase(i-1, j-1).setSelectionnee(true); // on colorie la case pour montrer qu'on peut la selectionner
 			}
@@ -160,8 +158,6 @@ public class Plateau extends JPanel {
 			else if(i+2<taille && j-2>=0 && getCase(i+2, j-2).getComponentCount()==0 ){ // pour sauter un pion adverse placé en bas à gauche du pion
 				getCase(i+2, j-2).setSelectionnee(true);
 			}
-			
-		
 	}
 
 	public void deplacer(Cases_du_plateau case_voulue){
