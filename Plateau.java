@@ -15,7 +15,7 @@ public class Plateau extends JPanel {
 
 	private static final long serialVersionUID = 6726708245444190460L;
 	int taille=19;
-	Couleur_du_pion couleur1;
+	Couleur_du_pion couleur;
 	private Cases_du_plateau caseActive;
 
 	private boolean tourNoir;
@@ -144,8 +144,6 @@ public class Plateau extends JPanel {
 			else if(i-2>=0 && j+2<taille && getCase(i-2, j+2).getComponentCount()==0 ){ // pour sauter un pion adverse placé en haut à droite du pion
 				getCase(i-2, j+2).setSelectionnee(true);
 			}
-		
-		
 			if(i+1<taille && j+1<taille && getCase(i+1, j+1).getComponentCount()==0){ //si la case en bas à droite existe et qu'il n'y a pas de pions
 				getCase(i+1, j+1).setSelectionnee(true);
 			}
