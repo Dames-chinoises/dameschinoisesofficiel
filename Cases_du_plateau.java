@@ -14,6 +14,7 @@ public class Cases_du_plateau extends JPanel {
 	private boolean selectionnee;
 	
 	public Cases_du_plateau(Couleur_du_case couleur){
+		this.couleur=couleur;
 		setLayout(new GridLayout(1,0));
 		switch (couleur) {
 		case BLANC :
@@ -28,16 +29,14 @@ public class Cases_du_plateau extends JPanel {
 	}
 	
 	private void initialisationCouleur(){
-		switch(couleur){
+		switch (couleur) {
 		case BLANC :
-			setBackground(Color.WHITE);
-			setForeground(new Color(200, 200, 200));
-			
+			setForeground(Color.WHITE);
+			setBackground(new Color(220, 220, 220));
 			break;
-			
 		case GRIS :
-			setBackground(Color.GRAY);
-			setForeground(new Color(200, 200, 200));
+			setForeground(Color.GRAY);
+			setBackground(new Color(220, 220, 220));
 			break;
 		}
 	}
