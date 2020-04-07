@@ -33,37 +33,37 @@ public class Plateau extends JPanel {
 					else{
 						
 						if((j==9 && i==0) || (j==8 && i==1) || (j==10 && i==1) || (j==7 && i==2) || (j==9 && i==2) || (j==11 && i==2)){
-							ajouterCase(Couleur_du_pion.VERT);
+							ajouterCase(Couleur_du_pion.BLANC);
 							getCase(i,j).add(creerPion(Couleur_du_pion.VERT, true));
 						}
 						else{
 							
 							if((j==0 && i==3) || (j==2 && i==3) || (j==4 && i==3) || (j==1 && i==4) || (j==3 && i==4) || (j==2 && i==5)){
-								ajouterCase(Couleur_du_pion.NOIR);
+								ajouterCase(Couleur_du_pion.BLANC);
 								getCase(i,j).add(creerPion(Couleur_du_pion.NOIR, true));
 							}
 							else{
 						
 								if((j==14 && i==3) || (j==16 && i==3) || (j==18 && i==3) || (j==15 && i==4) || (j==17 && i==4) || (j==16 && i==5)){
-									ajouterCase(Couleur_du_pion.ORANGE);
+									ajouterCase(Couleur_du_pion.BLANC);
 									getCase(i,j).add(creerPion(Couleur_du_pion.ORANGE, true));
 								}
 								else{
 					
 									if((j==16 && i==7) || (j==15 && i==8) || (j==17 && i==8) || (j==14 && i==9) || (j==16 && i==9) || (j==18 && i==9)){
-										ajouterCase(Couleur_du_pion.BLEU);
+										ajouterCase(Couleur_du_pion.BLANC);
 										getCase(i,j).add(creerPion(Couleur_du_pion.BLEU, true));
 									}
 									else{
 					
 										if((j==11 && i==10) || (j==9 && i==10) || (j==7 && i==10) || (j==8 && i==11) || (j==10 && i==11) || (j==9 && i==12)){
-											ajouterCase(Couleur_du_pion.ROUGE);
+											ajouterCase(Couleur_du_pion.BLANC);
 											getCase(i,j).add(creerPion(Couleur_du_pion.ROUGE, true));
 										}
 										else{
 					
 											if((j==2 && i==7) || (j==3 && i==8) || (j==1 && i==8) || (j==0 && i==9) || (j==2 && i==9) || (j==4 && i==9)){
-												ajouterCase(Couleur_du_pion.JAUNE);
+												ajouterCase(Couleur_du_pion.BLANC);
 												getCase(i,j).add(creerPion(Couleur_du_pion.JAUNE, true));
 												}
 											else{
