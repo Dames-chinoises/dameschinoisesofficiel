@@ -20,10 +20,6 @@ public class Pion extends JPanel {
 		this.couleur = couleur;
 		setOpaque(false);
 		switch (couleur) {
-		case BLANC :
-			setForeground(Color.WHITE);
-			setBackground(new Color(220, 220, 220));
-			break;
 		case NOIR :
 			setForeground(new Color(1, 1, 1));
 			setBackground(new Color(100, 100, 100));

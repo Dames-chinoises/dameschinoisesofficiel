@@ -10,13 +10,21 @@ import javax.swing.JPanel;
 
 public class Cases_du_plateau extends JPanel {
 	
-	private Couleur_du_pion couleur;
+	private Couleur_du_case couleur;
 	private boolean selectionnee;
 	
-	public Cases_du_plateau(Couleur_du_pion couleur){
+	public Cases_du_plateau(Couleur_du_case couleur){
 		setLayout(new GridLayout(1,0));
-		this.couleur=couleur;
-		initialisationCouleur();
+		switch (couleur) {
+		case BLANC :
+			setForeground(Color.WHITE);
+			setBackground(new Color(220, 220, 220));
+			break;
+		case GRIS :
+			setForeground(Color.GRAY);
+			setBackground(new Color(220, 220, 220));
+			break;
+		}
 	}
 	
 	private void initialisationCouleur(){
@@ -26,44 +34,15 @@ public class Cases_du_plateau extends JPanel {
 			setForeground(new Color(200, 200, 200));
 			
 			break;
-		case NOIR :
-			setBackground(Color.BLACK);
-			setForeground(new Color(20, 20, 20));
-			break;
 			
 		case GRIS :
-			setBackground(new Color(200, 200, 200));
-			setForeground(new Color(20, 20, 20));
-			break;
-			
-		case VERT :
-			setBackground(Color.GREEN);
-			setForeground(new Color(20, 20, 20));
-			break;
-		
-		case BLEU :
-			setBackground(Color.BLUE);
-			setForeground(new Color(20, 20, 20));
-			break;
-		
-		case ROUGE :
-			setBackground(Color.RED);
-			setForeground(new Color(20, 20, 20));
-			break;
-		
-		case JAUNE :
-			setBackground(Color.YELLOW);
-			setForeground(new Color(20, 20, 20));
-			break;
-			
-		case ORANGE :
-			setBackground(Color.ORANGE);
-			setForeground(new Color(20, 20, 20));
+			setBackground(Color.GRAY);
+			setForeground(new Color(200, 200, 200));
 			break;
 		}
 	}
 	
-	public Couleur_du_pion getCouleur() {
+	public Couleur_du_case getCouleur() {
 		return couleur;
 	}
 	
