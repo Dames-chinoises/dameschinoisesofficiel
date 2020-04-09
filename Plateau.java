@@ -154,9 +154,21 @@ public class Plateau extends JPanel {
 			if(i+1<taille && j-1>=0 && getCase(i+1, j-1).getComponentCount()==0 && getCase(i+1, j-1).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
 				getCase(i+1, j-1).setSelectionnee(true);
 			}
-			else if(i+2<taille && j-2>=0 && getCase(i+2, j-2).getComponentCount()==0 && getCase(i+2, j-2).getCouleur()==Couleur_du_case.BLANC){ // pour sauter un pion adverse placé en bas à gauche du pion
-				getCase(i+2, j-2).setSelectionnee(true);
+			else if(i+2<taille && j-2>=0 && getCase(i+2, j-2).getComponentCount()==0 && getCase(i+2, j-2).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
+				getCase(i + 2, j - 2).setSelectionnee(true);
 			}
+			if(i<taille && j+1>=0 && getCase(i, j+1).getComponentCount()==0 && getCase(i, j+1).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
+				getCase(i, j+1).setSelectionnee(true);
+			}
+				else if(i<taille && j+2>=0 && getCase(i, j+2).getComponentCount()==0 && getCase(i, j+2).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
+				getCase(i, j + 2).setSelectionnee(true);
+			}
+			if(i<taille && j-1>=0 && getCase(i, j-1).getComponentCount()==0 && getCase(i, j-1).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
+				getCase(i, j-1).setSelectionnee(true);
+			}
+			else if(i<taille && j-2>=0 && getCase(i, j-2).getComponentCount()==0 && getCase(i, j-2).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
+				getCase(i, j - 2).setSelectionnee(true);
+		}
 	}
 
 	public void deplacer(Cases_du_plateau case_voulue){
