@@ -6,7 +6,7 @@ public enum Couleur_du_pion {
 	BLEU,
 	ROUGE,
 	JAUNE,
-	ORANGE,
+	ROSE,
 	;
 
 }

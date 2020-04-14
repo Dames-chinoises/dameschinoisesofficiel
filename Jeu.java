@@ -15,7 +15,7 @@ public class Jeu {
 		plateau_de_jeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		plateau_de_jeu.add(new Plateau(19));
 		plateau_de_jeu.setVisible(true);
-
+		
 	}
 
 }
