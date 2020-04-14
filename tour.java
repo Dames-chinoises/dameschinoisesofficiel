@@ -1,12 +1,12 @@
 public enum tour {
 	
 
-	NOIR,
-	VERT,
-	BLEU,
-	ROUGE,
-	JAUNE,
-	ROSE,
+	tourNOIR,
+	tourVERT,
+	tourBLEU,
+	tourROUGE,
+	tourJAUNE,
+	tourROSE,
 	;
 
 }
