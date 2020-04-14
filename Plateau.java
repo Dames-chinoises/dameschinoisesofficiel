@@ -46,7 +46,7 @@ public class Plateau extends JPanel {
 						
 								if((j==14 && i==3) || (j==16 && i==3) || (j==18 && i==3) || (j==15 && i==4) || (j==17 && i==4) || (j==16 && i==5)){
 									ajouterCase(Couleur_du_case.BLANC);
-									getCase(i,j).add(creerPion(Couleur_du_pion.ROSE, true));
+									getCase(i,j).add(creerPion(Couleur_du_pion.ORANGE, true));
 								}
 								else{
 					
@@ -87,6 +87,8 @@ public class Plateau extends JPanel {
 		
 		
 	}
+	
+	
 	
 	
 	
@@ -262,8 +264,8 @@ public class Plateau extends JPanel {
 	}
 
 	public void deplacer(Cases_du_plateau case_voulue){
-		case_voulue.add(caseActive.getComponent(0));
-		for(int k=0; k<taille*taille; k++){
+		case_voulue.add(caseActive.getComponent(0));		//on met le pion de la case active sur la case voulue
+		for(int k=0; k<taille*taille; k++){ 		// reinitialise selectionner_cases
 			getCase(k).setSelectionnee(false);
 		}
 		if(Math.abs(getLigne(case_voulue)-getLigne(caseActive))==2){ // si on doit sauter un pion pour aller dans la case voulue
