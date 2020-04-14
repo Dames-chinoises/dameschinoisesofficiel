@@ -1,5 +1,3 @@
-
-
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -46,7 +44,7 @@ public class Plateau extends JPanel {
 						
 								if((j==14 && i==3) || (j==16 && i==3) || (j==18 && i==3) || (j==15 && i==4) || (j==17 && i==4) || (j==16 && i==5)){
 									ajouterCase(Couleur_du_case.BLANC);
-									getCase(i,j).add(creerPion(Couleur_du_pion.ORANGE, true));
+									getCase(i,j).add(creerPion(Couleur_du_pion.ROSE, true));
 								}
 								else{
 					
