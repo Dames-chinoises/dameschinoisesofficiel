@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Paint;
+import java.util.LinkedList;
 
 import javax.swing.JPanel;
 
@@ -18,6 +19,8 @@ public class Plateau extends JPanel {
 
 	private boolean tourNoir;
 	private boolean case_valide;
+	private boolean dejaSaute;
+	private LinkedList<Coordonees> mouvementsPossibles = new LinkedList<>();
 	
 
 	public Plateau(int taille){
@@ -86,10 +89,7 @@ public class Plateau extends JPanel {
 		
 	}
 	
-	
-	
-	
-	
+
 	private void ajouterCase(Couleur_du_case couleur){
 		Cases_du_plateau case_voulue = new Cases_du_plateau(couleur);
 		case_voulue.addMouseListener(new Listener_Cases_du_plateau(case_voulue, this));
@@ -128,137 +128,13 @@ public class Plateau extends JPanel {
 		}
 	}
 
+	//Methode qui selection les cases ou il est possible se deplacer a partir de la liste mouvements possibles
 	public void selectionnerCases(int i, int j, Couleur_du_pion couleur){
 		Pion pion = (Pion)(getCase(i, j).getComponent(0));
-
-		if(i-1>=0 && j-1>=0 && getCase(i-1, j-1).getComponentCount()==0 && getCase(i-1, j-1).getCouleur()==Couleur_du_case.BLANC){ //si la case en haut à gauche existe et qu'il n'y a pas de pions
-			getCase(i-1, j-1).setSelectionnee(true); // on colorie la case pour montrer qu'on peut la selectionner
-		}
-		else if(i-2>=0 && j-2>=0 && getCase(i-2, j-2).getComponentCount()==0 && getCase(i-2, j-2).getCouleur()==Couleur_du_case.BLANC ){ //si dans la case en haut à gauche il y a un pion et pas de pion dans celle placée après ce pion dans la diagonale (pour manger un pion placé en haut à gauche)
-			getCase(i-2, j-2).setSelectionnee(true);
-			if( i-3>=0 && j-3>=0 && getCase(i-3, j-3).getComponentCount()!=0 && getCase(i-3, j-3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j-4>=0 && getCase(i-4, j-4).getComponentCount()==0 && getCase(i-4, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j-4).setSelectionnee(true);
-				}
-			}
-			if( i-3>=0 && j-1>=0 && getCase(i-3, j-1).getComponentCount()!=0 && getCase(i-3, j-1).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j>=0 && getCase(i-4, j).getComponentCount()==0 && getCase(i-4, j).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j).setSelectionnee(true);
-				}
-			}
-			if( i-1>=0 && j-3>=0 && getCase(i-1, j-3).getComponentCount()!=0 && getCase(i-1, j-3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j-4>=0 && getCase(i, j-4).getComponentCount()==0 && getCase(i, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j-4).setSelectionnee(true);
-				}
-			}
-
-
-		}
-		if(i-1>=0 && j+1<taille && getCase(i-1, j+1).getComponentCount()==0 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC){ //si la case en haut à droite existe et qu'il n'y a pas de pions
-			getCase(i-1, j+1).setSelectionnee(true);
-		}
-		else if(i-2>=0 && j+2<taille && getCase(i-2, j+2).getComponentCount()==0 && getCase(i-2, j+2).getCouleur()==Couleur_du_case.BLANC){ // pour sauter un pion adverse placé en haut à droite du pion
-			getCase(i-2, j+2).setSelectionnee(true);
-			if( i-3>=0 && j+3>=0 && getCase(i-3, j+3).getComponentCount()!=0 && getCase(i-3, j+3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j+4>=0 && getCase(i-4, j+4).getComponentCount()==0 && getCase(i-4, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j+4).setSelectionnee(true);
-				}
-			}
-			if( i-1>=0 && j+3>=0 && getCase(i-1, j+3).getComponentCount()!=0 && getCase(i-1, j+3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j+4>=0 && getCase(i, j+4).getComponentCount()==0 && getCase(i, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j+4).setSelectionnee(true);
-				}
-			}
-			if( i-3>=0 && j+1>=0 && getCase(i-3, j+1).getComponentCount()!=0 && getCase(i-3, j+1).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j>=0 && getCase(i-4, j).getComponentCount()==0 && getCase(i-4, j).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j).setSelectionnee(true);
-				}
-			}
-		}
-		if(i+1<taille && j+1<taille && getCase(i+1, j+1).getComponentCount()==0 && getCase(i+1, j+1).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à droite existe et qu'il n'y a pas de pions
-			getCase(i+1, j+1).setSelectionnee(true);
-		}
-		else if(i+2<taille && j+2<taille && getCase(i+2, j+2).getComponentCount()==0 && getCase(i+2, j+2).getCouleur()==Couleur_du_case.BLANC){ // pour sauter un pion adverse placé dans la case en bas à droite
-			getCase(i+2, j+2).setSelectionnee(true);
-			if( i+3>=0 && j+3>=0 && getCase(i+3, j+3).getComponentCount()!=0 && getCase(i+3, j+3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j+4>=0 && getCase(i+4, j+4).getComponentCount()==0 && getCase(i+4, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j+4).setSelectionnee(true);
-				}
-			}
-			if( i+3>=0 && j+1>=0 && getCase(i+3, j+1).getComponentCount()!=0 && getCase(i+3, j+1).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j>=0 && getCase(i+4, j).getComponentCount()==0 && getCase(i+4, j).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j).setSelectionnee(true);
-				}
-			}
-			if( i+1>=0 && j+3>=0 && getCase(i+1, j+3).getComponentCount()!=0 && getCase(i+1, j+3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j+4>=0 && getCase(i, j+4).getComponentCount()==0 && getCase(i, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j+4).setSelectionnee(true);
-				}
-			}
-		}
-		if(i+1<taille && j-1>=0 && getCase(i+1, j-1).getComponentCount()==0 && getCase(i+1, j-1).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
-			getCase(i+1, j-1).setSelectionnee(true);
-		}
-		else if(i+2<taille && j-2>=0 && getCase(i+2, j-2).getComponentCount()==0 && getCase(i+2, j-2).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
-			getCase(i + 2, j - 2).setSelectionnee(true);
-			if( i+3>=0 && j-3>=0 && getCase(i+3, j-3).getComponentCount()!=0 && getCase(i+3, j-3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j-4>=0 && getCase(i+4, j-4).getComponentCount()==0 && getCase(i+4, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j-4).setSelectionnee(true);
-				}
-			}
-			if( i+3>=0 && j-1>=0 && getCase(i+3, j-1).getComponentCount()!=0 && getCase(i+3, j-1).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j>=0 && getCase(i+4, j).getComponentCount()==0 && getCase(i+4, j).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j).setSelectionnee(true);
-				}
-			}
-			if( i+1>=0 && j-3>=0 && getCase(i+1, j-3).getComponentCount()!=0 && getCase(i+1, j-3).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j-4>=0 && getCase(i, j-4).getComponentCount()==0 && getCase(i, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j-4).setSelectionnee(true);
-				}
-			}
-		}
-		if(i<taille && j+2>=0 && getCase(i, j+2).getComponentCount()==0 && getCase(i, j+2).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
-			getCase(i, j+2).setSelectionnee(true);
-		}
-		else if(i<taille && j+4>=0 && getCase(i, j+4).getComponentCount()==0 && getCase(i, j+4).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
-			getCase(i, j + 4).setSelectionnee(true);
-			if( i>=0 && j+6>=0 && getCase(i, j+6).getComponentCount()!=0 && getCase(i, j+6).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j+8>=0 && getCase(i, j+8).getComponentCount()==0 && getCase(i, j+8).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j+8).setSelectionnee(true);
-				}
-			}
-			if( i-2>=0 && j+4>=0 && getCase(i-2, j+4).getComponentCount()!=0 && getCase(i-2, j+4).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j+4>=0 && getCase(i-4, j+4).getComponentCount()==0 && getCase(i-4, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j+4).setSelectionnee(true);
-				}
-			}
-			if( i+2>=0 && j+4>=0 && getCase(i+2, j+4).getComponentCount()!=0 && getCase(i+2, j+4).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j+4>=0 && getCase(i+4, j+4).getComponentCount()==0 && getCase(i+4, j+4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j+4).setSelectionnee(true);
-				}
-			}
-		}
-		if(i<taille && j-2>=0 && getCase(i, j-2).getComponentCount()==0 && getCase(i, j-2).getCouleur()==Couleur_du_case.BLANC){ //si la case en bas à gauche existe et qu'il n'y a pas de pions
-			getCase(i, j-2).setSelectionnee(true);
-		}
-		else if(i<taille && j-4>=0 && getCase(i, j-4).getComponentCount()==0 && getCase(i, j-4).getCouleur()==Couleur_du_case.BLANC) { // pour sauter un pion adverse placé en bas à gauche du pion
-			getCase(i, j - 4).setSelectionnee(true);
-			if( i>=0 && j-6>=0 && getCase(i, j-6).getComponentCount()!=0 && getCase(i, j-6).getCouleur()==Couleur_du_case.BLANC ){
-				if( i>=0 && j-8>=0 && getCase(i, j-8).getComponentCount()==0 && getCase(i, j-8).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i, j-8).setSelectionnee(true);
-				}
-			}
-			if( i-2>=0 && j-4>=0 && getCase(i-2, j-4).getComponentCount()!=0 && getCase(i-2, j-4).getCouleur()==Couleur_du_case.BLANC ){
-				if( i-4>=0 && j-4>=0 && getCase(i-4, j-4).getComponentCount()==0 && getCase(i-4, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i-4, j-4).setSelectionnee(true);
-				}
-			}
-			if( i+2>=0 && j-4>=0 && getCase(i+2, j-4).getComponentCount()!=0 && getCase(i+2, j-4).getCouleur()==Couleur_du_case.BLANC ){
-				if( i+4>=0 && j-4>=0 && getCase(i+4, j-4).getComponentCount()==0 && getCase(i+4, j-4).getCouleur()==Couleur_du_case.BLANC ){
-					getCase(i+4, j-4).setSelectionnee(true);
-				}
-			}
-		}
+		getMouvementsPossibles(i,j);
+		ajouterSauts();
+		mouvementsPossibles.forEach(c-> getCase(c.getI(),c.getJ()).setSelectionnee(true));
+		mouvementsPossibles=new LinkedList<>();
 	}
 
 	public void deplacer(Cases_du_plateau case_voulue){
@@ -290,6 +166,148 @@ public class Plateau extends JPanel {
 		}
 		return res;
 	}
+
+	//Methode qui ajoute les premirs mouvements possibles dans la liste Mouvements Possibles
+	private void getMouvementsPossibles(int i, int j){
+		//DIRECTION 0 - HAUT DROITE
+		if( i-1>=0 && j+1<=18 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC  && getCase(i-1,j+1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-1,j+1))){
+			mouvementsPossibles.add(new Coordonees(i-1,j+1));
+		}
+		else if( i-1>=0 && j+1<=18 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-1,j+1).getComponentCount()!=0){
+			if(i-2>=0 && j+2<=18 && getCase(i-2, j+2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-2,j+2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-2,j+2))) {
+				Coordonees aAjouter = new Coordonees(i-2,j+2);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+		//DIRECTION 1 -  BAS DROITE
+		if(i+1>=0 && j+1<=18 && getCase(i+1, j+1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i+1,j+1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i+1,j+1))){
+			mouvementsPossibles.add(new Coordonees(i+1,j+1));
+		}
+		else if( i+1>=0 && j+1<=18 && getCase(i+1, j+1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i+1,j+1).getComponentCount()!=0){
+			if(i+2>=0 && j+2<=18 && getCase(i+2, j+2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i+2,j+2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i+2,j+2))) {
+				Coordonees aAjouter = new Coordonees(i+2,j+2);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+		// DIRECTION 2 - DROITE
+		if( i>=0 && j+2<=18 && getCase(i, j+2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j+2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i,j+2))){
+			mouvementsPossibles.add(new Coordonees(i,j+2));
+		}
+		else if( i>=0 && j+2<=18 && getCase(i, j+2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j+2).getComponentCount()!=0){
+			if(i>=0 && j+4<=18 && getCase(i, j+4).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j+4).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i,j+4))) {
+				Coordonees aAjouter = new Coordonees(i,j+4);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+		// DIRECTION 3 - GAUCHE
+		if(i>=0 && j-2>=0 && getCase(i, j-2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j-2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i,j-2))){
+			mouvementsPossibles.add(new Coordonees(i,j-2));
+		}
+		else if(i>=0 && j-2>=0 && getCase(i, j-2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j-2).getComponentCount()!=0){
+			if(i>=0 && j-4<=18 && getCase(i, j-4).getCouleur()==Couleur_du_case.BLANC &&  getCase(i,j-4).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i,j-4))) {
+				Coordonees aAjouter = new Coordonees(i,j-4);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+		//DIRECTION 4 -  BAS GAUCHE
+		if( i+1>=0 && j-1>=0 &&  getCase(i+1, j-1).getCouleur()==Couleur_du_case.BLANC && getCase(i+1,j-1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i+1,j-1))){
+			mouvementsPossibles.add(new Coordonees(i+1,j-1));
+		}
+		else if( i+1>=0 && j-1>=0 && getCase(i+1, j-1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i+1,j-1).getComponentCount()!=0){
+			if(i+2>=0 && j-2<=18 && getCase(i+2, j-2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i+2,j-2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i+2,j-2))) {
+				Coordonees aAjouter = new Coordonees(i+2,j-2);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+		//DIRECTION 5 - HAUT GAUCHE
+		if( i-1>=0 && j-1>=0 && getCase(i-1, j-1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-1,j-1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-1,j-1))){
+			mouvementsPossibles.add(new Coordonees(i-1,j-1));
+		}
+		else if( i-1>=0 && j-1>=0 && getCase(i-1, j-1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-1,j-1).getComponentCount()!=0){
+			if(i-2>=0 && j-2<=18 && getCase(i-2, j-2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-2,j-2).getComponentCount()==0 && !mouvementsPossibles.contains(new Coordonees(i-2,j-2))) {
+				Coordonees aAjouter = new Coordonees(i-2,j-2);
+				aAjouter.dejaSaute=true;
+				mouvementsPossibles.add(aAjouter);
+			}
+		}
+
+	}
+
+	//Methode qui ajoute les mouvements supplementaires au caus oú il est possible de sauter en plus
+	private void ajouterSautsPossibles(Coordonees c){
+		if(c.dejaSaute) {
+			int i = c.getI();
+			int j = c.getJ();
+			//DIRECTION 0 - HAUT DROITE
+			if (i - 1 >= 0 && j + 1 <= 18 && getCase(i - 1, j + 1).getCouleur() == Couleur_du_case.BLANC && getCase(i - 1, j + 1).getComponentCount() != 0 ) {
+				if (i - 2 >= 0 && j + 2 <= 18 && getCase(i - 2, j + 2).getCouleur() == Couleur_du_case.BLANC && getCase(i - 2, j + 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i - 2, j + 2))) {
+					Coordonees aAjouter = new Coordonees(i-2,j+2);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+			//DIRECTION 1 -  BAS DROITE
+			if (i + 1 >= 0 && j + 1 <= 18 && getCase(i + 1, j + 1).getCouleur() == Couleur_du_case.BLANC && getCase(i + 1, j + 1).getComponentCount() != 0) {
+				if (i + 2 >= 0 && j + 2 <= 18 && getCase(i + 2, j + 2).getCouleur() == Couleur_du_case.BLANC && getCase(i + 2, j + 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i + 2, j + 2))) {
+					Coordonees aAjouter = new Coordonees(i+2,j+2);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+			// DIRECTION 2 - DROITE
+			if (i >= 0 && j + 2 <= 18 && getCase(i, j + 2).getCouleur() == Couleur_du_case.BLANC && getCase(i, j + 2).getComponentCount() != 0) {
+				if (i >= 0 && j + 4 <= 18 && getCase(i, j + 4).getCouleur() == Couleur_du_case.BLANC && getCase(i, j + 4).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i, j + 4))) {
+					Coordonees aAjouter = new Coordonees(i,j+4);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+			// DIRECTION 3 - GAUCHE
+			if (i >= 0 && j - 2 >= 0 && getCase(i, j - 2).getCouleur() == Couleur_du_case.BLANC && getCase(i, j - 2).getComponentCount() != 0) {
+				if (i >= 0 && j - 4 <= 18 && getCase(i, j - 4).getCouleur() == Couleur_du_case.BLANC && getCase(i, j - 4).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i, j - 4))) {
+					Coordonees aAjouter = new Coordonees(i,j-4);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+			//DIRECTION 4 -  BAS GAUCHE
+			if (i + 1 >= 0 && j - 1 >= 0 && getCase(i + 1, j - 1).getCouleur() == Couleur_du_case.BLANC && getCase(i + 1, j - 1).getComponentCount() != 0) {
+				if (i + 2 >= 0 && j - 2 <= 18 && getCase(i + 2, j - 2).getCouleur() == Couleur_du_case.BLANC && getCase(i + 2, j - 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i + 2, j - 2))) {
+					Coordonees aAjouter = new Coordonees(i+2,j-2);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+			//DIRECTION 5 - HAUT GAUCHE
+			if (i - 1 >= 0 && j - 1 >= 0 && getCase(i - 1, j - 1).getCouleur() == Couleur_du_case.BLANC && getCase(i - 1, j - 1).getComponentCount() != 0) {
+				if (i - 2 >= 0 && j - 2 <= 18 && getCase(i - 2, j - 2).getCouleur() == Couleur_du_case.BLANC && getCase(i - 2, j - 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i - 2, j - 2))) {
+					Coordonees aAjouter = new Coordonees(i-2,j-2);
+					aAjouter.dejaSaute=true;
+					mouvementsPossibles.add(aAjouter);
+				}
+			}
+		}
+
+	}
+
+	//Methode qui ajoute les sautes supplementaires possibles dans la liste mouvements possibles
+	private void ajouterSauts(){
+		int size = 0;
+		while (mouvementsPossibles.size()!=size){
+			size=mouvementsPossibles.size();
+			for(int a=0; a<mouvementsPossibles.size();a++){
+				Coordonees c = mouvementsPossibles.get(a);
+				ajouterSautsPossibles(c);
+			}
+
+		}
+	}
+
 
 	private int getColonne(Cases_du_plateau case_voulue){
 		int res=0;
