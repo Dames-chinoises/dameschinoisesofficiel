@@ -180,7 +180,7 @@ public class Plateau extends JPanel {
 		}
 		else if(i+2<taille && j+2<taille && getCase(i+2, j+2).getComponentCount()==0 && getCase(i+2, j+2).getCouleur()==Couleur_du_case.BLANC){ // pour sauter un pion adverse placé dans la case en bas à droite
 			getCase(i+2, j+2).setSelectionnee(true);
-			if( i+3>=0 && j+3>=0 && getCase(i-3, j-3).getComponentCount()!=0 && getCase(i+3, j+3).getCouleur()==Couleur_du_case.BLANC ){
+			if( i+3>=0 && j+3>=0 && getCase(i+3, j+3).getComponentCount()!=0 && getCase(i+3, j+3).getCouleur()==Couleur_du_case.BLANC ){
 				if( i+4>=0 && j+4>=0 && getCase(i+4, j+4).getComponentCount()==0 && getCase(i+4, j+4).getCouleur()==Couleur_du_case.BLANC ){
 					getCase(i+4, j+4).setSelectionnee(true);
 				}
