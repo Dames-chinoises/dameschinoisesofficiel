@@ -28,7 +28,7 @@ public class Plateau extends JPanel {
 
 	public Plateau(int taille){
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir le nombre de joueurs :");
+		System.out.println("Veuillez saisir le nombre de joueurs (2 , 4 ou 6) :");
 		String a = sc.nextLine();
 		nbjoueurs=Integer.parseInt(a);
 		setLayout(new GridLayout(taille,taille));
