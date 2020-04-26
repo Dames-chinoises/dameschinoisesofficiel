@@ -1,14 +1,12 @@
-
-
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Paint;
-import java.util.*;
-import javax.swing.JPanel;
+import java.util.LinkedList;
 
+import javax.swing.JPanel;
 
 
 public class Plateau extends JPanel {
@@ -18,20 +16,25 @@ public class Plateau extends JPanel {
 	Couleur_du_pion couleur;
 	private Cases_du_plateau caseActive;
 
+	private boolean tourNoir;
 	private boolean case_valide;
 	private boolean dejaSaute;
 	private LinkedList<Coordonees> mouvementsPossibles = new LinkedList<>();
 
-	private tour tourjoueur = tour.tourVERT;
-	private int nbjoueurs;
 
+	private LinkedList <Coordonees> triangleVert = new LinkedList <>();
+	private LinkedList <Coordonees> triangleRouge = new LinkedList <>();
+
+	private LinkedList <Coordonees> triangleNoire = new LinkedList <>();
+	private LinkedList <Coordonees> triangleBleu = new LinkedList <>();
+
+	private LinkedList <Coordonees> triangleRose = new LinkedList <>();
+	private LinkedList <Coordonees> triangleJaune = new LinkedList <>();
+	
 
 	public Plateau(int taille){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir le nombre de joueurs (2 , 4 ou 6) :");
-		String a = sc.nextLine();
-		nbjoueurs=Integer.parseInt(a);
 		setLayout(new GridLayout(taille,taille));
+		ajouterCoordonees();
 		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau
 			for(int j=0; j<taille; j++){
 				
@@ -95,11 +98,9 @@ public class Plateau extends JPanel {
 		
 		
 	}
-	
-	
-	
-	
-	
+
+
+
 	private void ajouterCase(Couleur_du_case couleur){
 		Cases_du_plateau case_voulue = new Cases_du_plateau(couleur);
 		case_voulue.addMouseListener(new Listener_Cases_du_plateau(case_voulue, this));
@@ -121,8 +122,9 @@ public class Plateau extends JPanel {
 		return (Cases_du_plateau) getComponent(i);
 	}
 
+
 	public void afficherPossibilites(Pion p){
-		if((p.getCouleur().equals(Couleur_du_pion.VERT) && tourjoueur.equals(tour.tourVERT)) || (p.getCouleur().equals(Couleur_du_pion.ROUGE) && tourjoueur.equals(tour.tourROUGE))|| (p.getCouleur().equals(Couleur_du_pion.NOIR) && tourjoueur.equals(tour.tourNOIR))|| (p.getCouleur().equals(Couleur_du_pion.BLEU) && tourjoueur.equals(tour.tourBLEU))|| (p.getCouleur().equals(Couleur_du_pion.JAUNE) && tourjoueur.equals(tour.tourJAUNE))|| (p.getCouleur().equals(Couleur_du_pion.ROSE) && tourjoueur.equals(tour.tourROSE))){ // si le pion selectionné est noir et que c'est au tour du noir de jouer (ou l'inverse)
+		if((p.getCouleur().equals(Couleur_du_pion.VERT) && tourNoir) || (p.getCouleur().equals(Couleur_du_pion.ROUGE) && !tourNoir)){ // si le pion selectionné est noir et que c'est au tour du noir de jouer (ou l'inverse)
 			int i=0;
 			int j=0;
 			for(int k=0; k<taille*taille; k++){  // le nombre k représente le nombre totale de cases du plateau
@@ -159,36 +161,10 @@ public class Plateau extends JPanel {
 			getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 			getCase(i, j).repaint();	// met à jour le panel
 		}
-		if (nbjoueurs==2){
-			if (tourjoueur.equals(tour.tourVERT)){
-				tourjoueur=tour.tourROUGE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-			} else {
-				tourjoueur=tour.tourVERT;
-			}
-		} else if (nbjoueurs==4) {
-			if (tourjoueur.equals(tour.tourVERT)){
-				tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-			} else if (tourjoueur.equals(tour.tourROSE)) {
-				tourjoueur=tour.tourROUGE;
-			} else if (tourjoueur.equals(tour.tourROUGE)) {
-				tourjoueur=tour.tourJAUNE;
-			} else if (tourjoueur.equals(tour.tourJAUNE)) {
-				tourjoueur=tour.tourVERT;
-			}
-		} else if (nbjoueurs==6) {
-			if (tourjoueur.equals(tour.tourVERT)){
-				tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-			} else if (tourjoueur.equals(tour.tourROSE)) {
-				tourjoueur=tour.tourBLEU;
-			} else if (tourjoueur.equals(tour.tourBLEU)) {
-				tourjoueur=tour.tourROUGE;
-			} else if (tourjoueur.equals(tour.tourROUGE)) {
-				tourjoueur=tour.tourJAUNE;
-			}else if (tourjoueur.equals(tour.tourJAUNE)) {
-				tourjoueur=tour.tourNOIR;
-			} else if (tourjoueur.equals(tour.tourNOIR)) {
-				tourjoueur=tour.tourVERT;
-			}
+		if(finDeJeu() == false) {
+			tourNoir = !tourNoir; // une fois le pion déplacé, c'est au tour de l'autre joueur
+		} else {
+			System.out.println("finDeJeu");
 		}
 		caseActive.removeAll(); // on enlève le pion de sa case précédente
 		caseActive.repaint();	// met à jour le panel 
@@ -197,6 +173,131 @@ public class Plateau extends JPanel {
 		
 	}
 
+	public void ajouterCoordonees (){ //Methode qui ajoute les cases avec coordonnes  dans chaque linkedlist
+		//ajoute les pions dans le triangle vert
+		triangleVert.add(new Coordonees(0,9));
+		triangleVert.add(new Coordonees(1,8));
+		triangleVert.add(new Coordonees(1,10));
+		triangleVert.add(new Coordonees(2,7));
+		triangleVert.add(new Coordonees(2,9));
+		triangleVert.add(new Coordonees(2,11));
+
+
+		//ajoute les pion dans le traingle rouge
+		triangleRouge.add(new Coordonees(10,7));
+		triangleRouge.add(new Coordonees(10,9));
+		triangleRouge.add(new Coordonees(10,11));
+		triangleRouge.add(new Coordonees(11,8));
+		triangleRouge.add(new Coordonees(11,10));
+		triangleRouge.add(new Coordonees(12,9));
+
+
+		// ajoute les pions dans le triangle noir
+		triangleNoire.add(new Coordonees(3,0));
+		triangleNoire.add(new Coordonees(3,2));
+		triangleNoire.add(new Coordonees(3,4));
+		triangleNoire.add(new Coordonees(4,1));
+		triangleNoire.add(new Coordonees(4,3));
+		triangleNoire.add(new Coordonees(5,2));
+
+
+		// ajoute les pions dans le triangle jaune
+		triangleJaune.add(new Coordonees(7,2));
+		triangleJaune.add(new Coordonees(8,1));
+		triangleJaune.add(new Coordonees(8,3));
+		triangleJaune.add(new Coordonees(9,0));
+		triangleJaune.add(new Coordonees(9,2));
+		triangleJaune.add(new Coordonees(9,4));
+
+
+		// ajoute les pions dans le triangle rose
+		triangleRose.add(new Coordonees(3,18));
+		triangleRose.add(new Coordonees(3,16));
+		triangleRose.add(new Coordonees(3,14));
+		triangleRose.add(new Coordonees(4,17));
+		triangleRose.add(new Coordonees(4,15));
+		triangleRose.add(new Coordonees(5,16));
+
+
+		// ajoute les pions dans le triangle bleu
+		triangleBleu.add(new Coordonees(7,16));
+		triangleBleu.add(new Coordonees(8,17));
+		triangleBleu.add(new Coordonees(8,15));
+		triangleBleu.add(new Coordonees(9,18));
+		triangleBleu.add(new Coordonees(9,16));
+		triangleBleu.add(new Coordonees(9,14));
+	}
+
+
+	public boolean finDeJeu() {
+		boolean finiVert = true;
+		boolean finiRouge = true;
+		boolean finiNoir = true;
+		boolean finiBleu = true;
+		boolean finiJaune = true;
+		boolean finiRose = true;
+
+		for (Coordonees c :triangleVert) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiVert = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.ROUGE) {
+				finiVert = false;
+				break;
+			}
+		}
+		for (Coordonees c :triangleRouge) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiRouge = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.VERT) {
+				finiRouge = false;
+				break;
+			}
+		}
+		for (Coordonees c :triangleNoire) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiNoir = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.BLEU) {
+				finiNoir = false;
+				break;
+			}
+		}
+		for (Coordonees c :triangleBleu) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiBleu = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.NOIR) {
+				finiBleu = false;
+				break;
+			}
+		}
+		for (Coordonees c :triangleJaune) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiJaune = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.ROSE) {
+				finiJaune = false;
+				break;
+			}
+		}
+		for (Coordonees c :triangleRose) {
+			if ((getCase(c.getI(),c.getJ()).getComponentCount() == 0)){
+				finiRose = false;
+				break;
+			} else if(((Pion)(getCase(c.getI(),c.getJ()).getComponent(0))).getCouleur()!=Couleur_du_pion.JAUNE) {
+				finiRose = false;
+				break;
+			}
+		}
+
+		if(finiBleu == true || finiNoir == true || finiJaune == true || finiRose== true || finiRouge== true || finiVert == true) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 	private int getLigne(Cases_du_plateau case_voulue){
 		int res=0;
 		for(int i=0; i<taille*taille; i+=2){
