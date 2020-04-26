@@ -1,11 +1,12 @@
+
+
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Paint;
-import java.util.LinkedList;
-
+import java.util.*;
 import javax.swing.JPanel;
 
 
@@ -17,13 +18,19 @@ public class Plateau extends JPanel {
 	Couleur_du_pion couleur;
 	private Cases_du_plateau caseActive;
 
-	private boolean tourNoir;
 	private boolean case_valide;
 	private boolean dejaSaute;
 	private LinkedList<Coordonees> mouvementsPossibles = new LinkedList<>();
-	
+
+	private tour tourjoueur = tour.tourVERT;
+	private int nbjoueurs;
+
 
 	public Plateau(int taille){
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Veuillez saisir le nombre de joueurs :");
+		String a = sc.nextLine();
+		nbjoueurs=Integer.parseInt(a);
 		setLayout(new GridLayout(taille,taille));
 		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau
 			for(int j=0; j<taille; j++){
@@ -89,7 +96,10 @@ public class Plateau extends JPanel {
 		
 	}
 	
-
+	
+	
+	
+	
 	private void ajouterCase(Couleur_du_case couleur){
 		Cases_du_plateau case_voulue = new Cases_du_plateau(couleur);
 		case_voulue.addMouseListener(new Listener_Cases_du_plateau(case_voulue, this));
@@ -112,7 +122,7 @@ public class Plateau extends JPanel {
 	}
 
 	public void afficherPossibilites(Pion p){
-		if((p.getCouleur().equals(Couleur_du_pion.VERT) && tourNoir) || (p.getCouleur().equals(Couleur_du_pion.ROUGE) && !tourNoir)){ // si le pion selectionné est noir et que c'est au tour du noir de jouer (ou l'inverse)
+		if((p.getCouleur().equals(Couleur_du_pion.VERT) && tourjoueur.equals(tour.tourVERT)) || (p.getCouleur().equals(Couleur_du_pion.ROUGE) && tourjoueur.equals(tour.tourROUGE))|| (p.getCouleur().equals(Couleur_du_pion.NOIR) && tourjoueur.equals(tour.tourNOIR))|| (p.getCouleur().equals(Couleur_du_pion.BLEU) && tourjoueur.equals(tour.tourBLEU))|| (p.getCouleur().equals(Couleur_du_pion.JAUNE) && tourjoueur.equals(tour.tourJAUNE))|| (p.getCouleur().equals(Couleur_du_pion.ROSE) && tourjoueur.equals(tour.tourROSE))){ // si le pion selectionné est noir et que c'est au tour du noir de jouer (ou l'inverse)
 			int i=0;
 			int j=0;
 			for(int k=0; k<taille*taille; k++){  // le nombre k représente le nombre totale de cases du plateau
@@ -149,7 +159,37 @@ public class Plateau extends JPanel {
 			getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 			getCase(i, j).repaint();	// met à jour le panel
 		}
-		tourNoir=!tourNoir; // une fois le pion déplacé, c'est au tour de l'autre joueur
+		if (nbjoueurs==2){
+			if (tourjoueur.equals(tour.tourVERT)){
+				tourjoueur=tour.tourROUGE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+			} else {
+				tourjoueur=tour.tourVERT;
+			}
+		} else if (nbjoueurs==4) {
+			if (tourjoueur.equals(tour.tourVERT)){
+				tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+			} else if (tourjoueur.equals(tour.tourROSE)) {
+				tourjoueur=tour.tourROUGE;
+			} else if (tourjoueur.equals(tour.tourROUGE)) {
+				tourjoueur=tour.tourJAUNE;
+			} else if (tourjoueur.equals(tour.tourJAUNE)) {
+				tourjoueur=tour.tourVERT;
+			}
+		} else if (nbjoueurs==6) {
+			if (tourjoueur.equals(tour.tourVERT)){
+				tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+			} else if (tourjoueur.equals(tour.tourROSE)) {
+				tourjoueur=tour.tourBLEU;
+			} else if (tourjoueur.equals(tour.tourBLEU)) {
+				tourjoueur=tour.tourROUGE;
+			} else if (tourjoueur.equals(tour.tourROUGE)) {
+				tourjoueur=tour.tourJAUNE;
+			}else if (tourjoueur.equals(tour.tourJAUNE)) {
+				tourjoueur=tour.tourNOIR;
+			} else if (tourjoueur.equals(tour.tourNOIR)) {
+				tourjoueur=tour.tourVERT;
+			}
+		}
 		caseActive.removeAll(); // on enlève le pion de sa case précédente
 		caseActive.repaint();	// met à jour le panel 
 		caseActive=null;		// on enlève la valeur qu'il y avait dans case active
