@@ -195,8 +195,6 @@ public class Plateau extends JPanel {
 	}
 
 	public void deplacer(Cases_du_plateau case_voulue){
-		
-		if(finDeJeu() == false) {
 			case_voulue.add(caseActive.getComponent(0));		//on met le pion de la case active sur la case voulue
 			for(int k=0; k<taille*taille; k++){ 		// reinitialise selectionner_cases
 				getCase(k).setSelectionnee(false);
@@ -208,48 +206,49 @@ public class Plateau extends JPanel {
 				getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 				getCase(i, j).repaint();	// met à jour le panel
 			}
-			if (nbjoueurs==2) {
-				if (tourjoueur.equals(tour.tourVERT)){
-					tourjoueur=tour.tourROUGE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-				} else {
-					tourjoueur=tour.tourVERT;
+			if(finDeJeu() == false) {
+				if (nbjoueurs==2) {
+					if (tourjoueur.equals(tour.tourVERT)){
+						tourjoueur=tour.tourROUGE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+					} else {
+						tourjoueur=tour.tourVERT;
+					}
+				}else if (nbjoueurs==3){ 
+					if (tourjoueur.equals(tour.tourVERT)){
+						tourjoueur=tour.tourBLEU; // une fois le pion déplacé, c'est au tour de l'autre joueur
+					}else if (tourjoueur.equals(tour.tourBLEU)) {
+						tourjoueur=tour.tourJAUNE;
+					}else if (tourjoueur.equals(tour.tourJAUNE)) {
+						tourjoueur=tour.tourVERT;
+					}
+				}else if (nbjoueurs==4) {
+					if (tourjoueur.equals(tour.tourVERT)){
+						tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+					}else if (tourjoueur.equals(tour.tourROSE)) {
+						tourjoueur=tour.tourROUGE;
+					}else if (tourjoueur.equals(tour.tourROUGE)) {
+						tourjoueur=tour.tourJAUNE;
+					}else if (tourjoueur.equals(tour.tourJAUNE)) {
+						tourjoueur=tour.tourVERT;
+					}
+				}else if (nbjoueurs==6) {
+					if (tourjoueur.equals(tour.tourVERT)){
+						tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
+					}else if (tourjoueur.equals(tour.tourROSE)) {
+						tourjoueur=tour.tourBLEU;
+					}else if (tourjoueur.equals(tour.tourBLEU)) {
+						tourjoueur=tour.tourROUGE;
+					}else if (tourjoueur.equals(tour.tourROUGE)) {
+						tourjoueur=tour.tourJAUNE;
+					}else if (tourjoueur.equals(tour.tourJAUNE)) {
+						tourjoueur=tour.tourNOIR;
+					}else if (tourjoueur.equals(tour.tourNOIR)) {
+						tourjoueur=tour.tourVERT;
+					}
 				}
-			}else if (nbjoueurs==3){ 
-				if (tourjoueur.equals(tour.tourVERT)){
-					tourjoueur=tour.tourBLEU; // une fois le pion déplacé, c'est au tour de l'autre joueur
-				} else if (tourjoueur.equals(tour.tourBLEU)) {
-					tourjoueur=tour.tourJAUNE;
-				} else if (tourjoueur.equals(tour.tourJAUNE)) {
-					tourjoueur=tour.tourVERT;
-				}
-			}else if (nbjoueurs==4) {
-				if (tourjoueur.equals(tour.tourVERT)){
-					tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-				} else if (tourjoueur.equals(tour.tourROSE)) {
-					tourjoueur=tour.tourROUGE;
-				} else if (tourjoueur.equals(tour.tourROUGE)) {
-					tourjoueur=tour.tourJAUNE;
-				} else if (tourjoueur.equals(tour.tourJAUNE)) {
-					tourjoueur=tour.tourVERT;
-				}
-			} else if (nbjoueurs==6) {
-				if (tourjoueur.equals(tour.tourVERT)){
-					tourjoueur=tour.tourROSE; // une fois le pion déplacé, c'est au tour de l'autre joueur
-				} else if (tourjoueur.equals(tour.tourROSE)) {
-					tourjoueur=tour.tourBLEU;
-				} else if (tourjoueur.equals(tour.tourBLEU)) {
-					tourjoueur=tour.tourROUGE;
-				} else if (tourjoueur.equals(tour.tourROUGE)) {
-					tourjoueur=tour.tourJAUNE;
-				}else if (tourjoueur.equals(tour.tourJAUNE)) {
-					tourjoueur=tour.tourNOIR;
-				} else if (tourjoueur.equals(tour.tourNOIR)) {
-					tourjoueur=tour.tourVERT;
-				}
+			}else {
+				System.out.println("fin de jeu");
 			}
-		}else {
-			System.out.println("fin de jeu");
-		}
 		caseActive.removeAll(); // on enlève le pion de sa case précédente
 		caseActive.repaint();	// met à jour le panel 
 		caseActive=null;		// on enlève la valeur qu'il y avait dans case active
