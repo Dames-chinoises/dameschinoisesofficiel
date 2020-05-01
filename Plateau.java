@@ -1,9 +1,4 @@
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Paint;
+import java.awt.*;
 import java.util.*;
 import javax.swing.JPanel;
 
