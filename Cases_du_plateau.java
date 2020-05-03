@@ -13,9 +13,22 @@ public class Cases_du_plateau extends JPanel {
 	private Couleur_du_case couleur;
 	private boolean selectionnee;
 	
-	public Cases_du_plateau(Couleur_du_case couleur){
+	public Cases_du_plateau(Couleur_du_case couleur){		// on crée l'objet case du plateau
 		this.couleur=couleur;
-		setLayout(new GridLayout(1,0));
+		setLayout(new GridLayout(1,0));		// on crée la case 
+		switch (couleur) {
+		case BLANC :				// on colorie la case créée en blanc
+			setForeground(Color.WHITE);
+			setBackground(new Color(220, 220, 220));
+			break;
+		case GRIS :				// on colorie la case créée en gris
+			setForeground(Color.GRAY);
+			setBackground(new Color(220, 220, 220));
+			break;
+		}
+	}
+	
+	private void initialisationCouleur(){		// c'est une méthode qui nous permet d'initialiser les couleurs des cases du plateau en blanc ou gris
 		switch (couleur) {
 		case BLANC :
 			setForeground(Color.WHITE);
@@ -28,30 +41,17 @@ public class Cases_du_plateau extends JPanel {
 		}
 	}
 	
-	private void initialisationCouleur(){
-		switch (couleur) {
-		case BLANC :
-			setForeground(Color.WHITE);
-			setBackground(new Color(220, 220, 220));
-			break;
-		case GRIS :
-			setForeground(Color.GRAY);
-			setBackground(new Color(220, 220, 220));
-			break;
-		}
-	}
-	
-	public Couleur_du_case getCouleur() {
+	public Couleur_du_case getCouleur() {  // méthode qui retourne la couleur d'une case du plateau
 		return couleur;
 	}
 	
 	
 
-	public boolean isSelectionnee() {
+	public boolean isSelectionnee() {	// méthode qui permet de savoir si une case est sélectionnée par le joueur ou non
 		return selectionnee;
 	}
 
-	public void setSelectionnee(boolean selectionnee) {  // si selectionnee=true, case coloriée en bleue sinon on laisse la case dans sa couleur d'origine
+	public void setSelectionnee(boolean selectionnee) {  // si selectionnee=true, la case est coloriée en bleue sinon on laisse la case dans sa couleur d'origine
 		this.selectionnee = selectionnee;
 		if(selectionnee){
 			setBackground(Color.BLUE);
@@ -63,7 +63,7 @@ public class Cases_du_plateau extends JPanel {
 	}
 	
 	@Override
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g){		// méthode qui rend le plateau plus "joli" à l'aide d'éléments graphiques
 		Paint paint;
 		Graphics2D g2d;
 		if (g instanceof Graphics2D) {
