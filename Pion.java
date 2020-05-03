@@ -15,11 +15,11 @@ public class Pion extends JPanel {
 	
 
 
-	public Pion(Couleur_du_pion couleur) {
+	public Pion(Couleur_du_pion couleur) { // on crée l'objet Pion
 		
 		this.couleur = couleur;
 		setOpaque(false);
-		switch (couleur) {
+		switch (couleur) {	// on colorie le pion en noir ou vert ou bleu ou rouge ou jaune ou rose en fonction de la couleur voulue
 		case NOIR :
 			setForeground(new Color(1, 1, 1));
 			setBackground(new Color(100, 100, 100));
@@ -53,7 +53,7 @@ public class Pion extends JPanel {
 	}
 	
 	@Override
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g){ 	// cette méthode permet de donner un visuel agréable au component Pion grâce à des éléments graphiques
 		Paint paint;
 		Graphics2D g2d;
 		if (g instanceof Graphics2D) {
@@ -69,7 +69,7 @@ public class Pion extends JPanel {
 
 	}
 
-	public Couleur_du_pion getCouleur() {
+	public Couleur_du_pion getCouleur() {  // cette méthode retourne la couleur du pion 
 		return couleur;
 	}
 
