@@ -1,4 +1,4 @@
-public enum Couleur_du_pion {
+public enum Couleur_du_pion {  // cette class énumère les couleurs qui peuvent prendre les pions 
 	
 
 	NOIR,
