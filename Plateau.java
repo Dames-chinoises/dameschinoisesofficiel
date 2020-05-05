@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.util.*;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 public class Plateau extends JPanel {
 
@@ -250,8 +250,16 @@ public class Plateau extends JPanel {
 					tours.remove(tour.tourBLEU);
 				}
 				setFinis();
-			} else {
-				System.out.println("Fin de jeu");
+			} else { //Si la liste contients que un tour on affiche un message de fin de jeu
+				JFrame fin = new JFrame();
+				JPanel findejeu = new JPanel();
+				JLabel fini = new JLabel("Fin de jeu!");
+				fini.setFont(new Font("Serif", Font.PLAIN, 30));
+				findejeu.add(fini);
+				fin.add(findejeu,BorderLayout.CENTER);
+				fin.setLocationRelativeTo(null);
+				fin.setSize(160,120);
+				fin.setVisible(true);
 			}
 
 		caseActive.removeAll(); // on enlève le pion de sa case précédente
@@ -534,7 +542,4 @@ public class Plateau extends JPanel {
 		return res;
 	}
 	
-	public Node getTourActuel(){
-		return tourActuel;
-	}
 }
