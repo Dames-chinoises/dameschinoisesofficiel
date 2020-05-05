@@ -33,11 +33,9 @@ public class Plateau extends JPanel {
 	private LinkedListCirculaire tours = new LinkedListCirculaire();
 	private  Node tourActuel ;
 
-	public Plateau(int taille){
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez saisir le nombre de joueurs (2 , 3 , 4 ou 6) :");
-		String a = sc.nextLine();
-		nbjoueurs=Integer.parseInt(a);
+	public Plateau(int nbjoueurs){
+
+		this.nbjoueurs=nbjoueurs;
 		if(nbjoueurs==2){
 			tours.add(tour.tourVERT);
 			tours.add(tour.tourROUGE);
@@ -535,6 +533,8 @@ public class Plateau extends JPanel {
 		}
 		return res;
 	}
+	
+	public Node getTourActuel(){
+		return tourActuel;
+	}
 }
-
-// pour jouer à 6 joueurs, il faut remplacer tourNoir ( qui est boolean donc prend que 2 valeurs) par une autre variable qui peut prendre 6 valeurs
