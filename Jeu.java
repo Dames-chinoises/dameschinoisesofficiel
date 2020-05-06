@@ -10,7 +10,7 @@ public class Jeu{
 		//On cree une JFrame pour choisir le nombre de joueurs
 		JFrame plateau_de_jeu = new JFrame("Dames chinoises");
 		JPanel menu = new JPanel();
-		JLabel nb = new JLabel("Nombre de joueurs: ");
+		JLabel nb = new JLabel("Veuillez choisir le nombre de joueurs: ");
 		JPanel menu1 = new JPanel();
 		menu1.setBorder(new EmptyBorder(new Insets(20, 120, 10, 20)));
 		BoxLayout boxlayout = new BoxLayout(menu1,BoxLayout.Y_AXIS);

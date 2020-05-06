@@ -32,11 +32,12 @@ public class Plateau extends JPanel {
 
 	private LinkedListCirculaire tours = new LinkedListCirculaire();
 	private  Node tourActuel ;
+	
+	private JLabel tourj = new JLabel("A toi de jouer vert"); //JLabel utilise pour savoir a qui est le tour de jouer
 
 	public Plateau(int nbjoueurs){
-
 		this.nbjoueurs=nbjoueurs;
-		if(nbjoueurs==2){
+		if(nbjoueurs==2){  //On ajoute dans notre LinkedListCirculaire les tours disponibles en fonction de nombre de joueurs
 			tours.add(tour.tourVERT);
 			tours.add(tour.tourROUGE);
 		} else if(nbjoueurs==3){
@@ -57,10 +58,9 @@ public class Plateau extends JPanel {
 			tours.add(tour.tourNOIR);
 		}
 		tourActuel = tours.getFirst();
-
 		setLayout(new GridLayout(taille,taille));
 		ajouterCoordonees();
-		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau
+		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau 
 			for(int j=0; j<taille; j++){
 				if(nbjoueurs==2){	
 					if ((j%2!=0 && i%2!=0) || (i%2==0 && j%2==0) || (i>=13) || (j<=6 && i<=2) || (j>=12 && i<=2) || (i<=12 && i>=10 && j<=6) || (j>=12 && i<=12 && i>=10) || ( j==0 && i>=4 && i<=8) || ( j==18 && i>=4 && i<=8) || (j==1 && i<=7 && i>=5) || (j==17 && i<=7 && i>=5) || (j==7 && i==12) || (j==7 && i==0) || (j==11 && i==0) || (j==11 && i==12)){
@@ -227,8 +227,10 @@ public class Plateau extends JPanel {
 				getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 				getCase(i, j).repaint();	// met à jour le panel
 			}
+			
 			if(tours.size() != 1) { //Si la liste contients plus de un tour on pase au prochain tour
 				tourActuel = tourActuel.prochainNode;
+				setTourActuel();
 				finiVert = true;
 				finiRouge = true;
 				finiNoir = true;
@@ -540,6 +542,26 @@ public class Plateau extends JPanel {
 			}
 		}
 		return res;
+	}
+	
+	public void setTourActuel(){	//setter de JLabel de tour actuel
+		if(tourActuel.tour.equals(tour.tourVERT)){
+			tourj.setText("A toi de jouer vert");
+		}else if(tourActuel.tour.equals(tour.tourROUGE)){
+			tourj.setText("A toi de jouer rouge");
+		}else if(tourActuel.tour.equals(tour.tourROSE)){
+			tourj.setText("A toi de jouer rose");
+		}else if(tourActuel.tour.equals(tour.tourJAUNE)){
+			tourj.setText("A toi de jouer jaune");
+		}else if(tourActuel.tour.equals(tour.tourBLEU)){
+			tourj.setText("A toi de jouer bleu");
+		}else if(tourActuel.tour.equals(tour.tourNOIR)){
+			tourj.setText("A toi de jouer noir");
+		}
+	}
+	
+	public JLabel getTourActuel(){		//getter de JLabel pour obtenir le tour actuel
+		return tourj;
 	}
 	
 }
