@@ -57,10 +57,10 @@ public class Plateau extends JPanel {
 			tours.add(tour.tourJAUNE);
 			tours.add(tour.tourNOIR);
 		}
-		tourActuel = tours.getFirst();
+		tourActuel = tours.getFirst(); //Pour initializer le tour dans la liste circulaire du premier case de la liste
 		setLayout(new GridLayout(taille,taille));
-		ajouterCoordonees();
-		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau 
+		ajouterCoordonees(); //On ajoute les coordonnes qui corresponde a chaque triangle
+		for(int i=0; i<taille; i++){	// dans cette boucle, on va colorier les cases du plateau par rapport au nombre des joueurs
 			for(int j=0; j<taille; j++){
 				if(nbjoueurs==2){	
 					if ((j%2!=0 && i%2!=0) || (i%2==0 && j%2==0) || (i>=13) || (j<=6 && i<=2) || (j>=12 && i<=2) || (i<=12 && i>=10 && j<=6) || (j>=12 && i<=12 && i>=10) || ( j==0 && i>=4 && i<=8) || ( j==18 && i>=4 && i<=8) || (j==1 && i<=7 && i>=5) || (j==17 && i<=7 && i>=5) || (j==7 && i==12) || (j==7 && i==0) || (j==11 && i==0) || (j==11 && i==12)){
@@ -189,7 +189,7 @@ public class Plateau extends JPanel {
 	}
 
 
-	public void afficherPossibilites(Pion p){
+	public void afficherPossibilites(Pion p){ //Methode pour afficher les possibilites de mouvement
 		if((p.getCouleur().equals(Couleur_du_pion.VERT) && tourActuel.tour.equals(tour.tourVERT)) || (p.getCouleur().equals(Couleur_du_pion.ROUGE) && tourActuel.tour.equals(tour.tourROUGE))|| (p.getCouleur().equals(Couleur_du_pion.NOIR) && tourActuel.tour.equals(tour.tourNOIR))|| (p.getCouleur().equals(Couleur_du_pion.BLEU) && tourActuel.tour.equals(tour.tourBLEU))|| (p.getCouleur().equals(Couleur_du_pion.JAUNE) && tourActuel.tour.equals(tour.tourJAUNE))|| (p.getCouleur().equals(Couleur_du_pion.ROSE) && tourActuel.tour.equals(tour.tourROSE))){ // si le pion selectionné est noir et que c'est au tour du noir de jouer (ou l'inverse)
 			int i=0;
 			int j=0;
@@ -209,8 +209,8 @@ public class Plateau extends JPanel {
 	//Methode qui selection les cases ou il est possible se deplacer a partir de la liste mouvements possibles
 	public void selectionnerCases(int i, int j, Couleur_du_pion couleur){
 		Pion pion = (Pion)(getCase(i, j).getComponent(0));
-		getMouvementsPossibles(i,j);
-		ajouterSauts();
+		getMouvementsPossibles(i,j); //On recuper tous les mouvements possibles a partir de la case i j
+		ajouterSauts(); //On ajoute les sautes suplementaires qu'il est possible de faire
 		mouvementsPossibles.forEach(c-> getCase(c.getI(),c.getJ()).setSelectionnee(true));
 		mouvementsPossibles=new LinkedList<>();
 	}
@@ -227,17 +227,18 @@ public class Plateau extends JPanel {
 				getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 				getCase(i, j).repaint();	// met à jour le panel
 			}
-			
-			if(tours.size() != 1) { //Si la liste contients plus de un tour on pase au prochain tour
+
+			if(tours.size() != 1) { //Si la liste contients plus d'un tour on pase au prochain tour
 				tourActuel = tourActuel.prochainNode;
 				setTourActuel();
+				//On reneitialise les finis pour qu'ils soient trues
 				finiVert = true;
 				finiRouge = true;
 				finiNoir = true;
 				finiBleu = true;
 				finiJaune = true;
 				finiRose = true;
-				setFinis();
+				setFinis(); //On les change s'ils sont en vrai true
 				if(finiVert == true) { // Si le vert est fini (c'est a dire a mis tout les pions dans le triangle rouge) il est enleve de la liste
 					tours.remove(tour.tourVERT);
 				} if(finiRouge == true) {
@@ -252,7 +253,7 @@ public class Plateau extends JPanel {
 					tours.remove(tour.tourBLEU);
 				}
 				setFinis();
-			} else { //Si la liste contients que un tour on affiche un message de fin de jeu
+			} else { //Si la liste contients qu'un tour on affiche un message de fin de jeu
 				JFrame fin = new JFrame();
 				JPanel findejeu = new JPanel();
 				JLabel fini = new JLabel("Fin de jeu!");
@@ -271,7 +272,7 @@ public class Plateau extends JPanel {
 		
 	}
 
-	public void ajouterCoordonees (){ //Methode qui ajoute les cases avec coordonnes  dans chaque linkedlist
+	public void ajouterCoordonees (){ //Methode qui ajoute les cases avec coordonnes dans chaque linkedlist triangle+couleur
 		//ajoute les pions dans le triangle vert
 		triangleVert.add(new Coordonees(0,9));
 		triangleVert.add(new Coordonees(1,8));
@@ -327,12 +328,12 @@ public class Plateau extends JPanel {
 	}
 
 
-	public void setFinis() {
+	public void setFinis() { //Methode qui verifie si un fini-couleur a change
 		for (Coordonees c : triangleVert) {
-			if ((getCase(c.getI(), c.getJ()).getComponentCount() == 0)) {
+			if ((getCase(c.getI(), c.getJ()).getComponentCount() == 0)) { //Si'il existe un triangle qui n'a pas de component dans lui. finiRouge est faux
 				finiRouge = false;
 				break;
-			} else if (((Pion) (getCase(c.getI(), c.getJ()).getComponent(0))).getCouleur() != Couleur_du_pion.ROUGE) {
+			} else if (((Pion) (getCase(c.getI(), c.getJ()).getComponent(0))).getCouleur() != Couleur_du_pion.ROUGE) { //Si chaque pion qui est dans le triangle vert n'est pas rouge alors finiRouge est faux.
 				finiRouge = false;
 			}
 		}
@@ -393,17 +394,19 @@ public class Plateau extends JPanel {
 		return res;
 	}
 
-	//Methode qui ajoute les premirs mouvements possibles dans la liste Mouvements Possibles
+	//Methode qui ajoute les premiers mouvements possibles dans la liste Mouvements Possibles
 	private void getMouvementsPossibles(int i, int j){
-		//DIRECTION 0 - HAUT DROITE
+		//DIRECTION 0 - HAUT DROITE - //Si la case du haut droite est de couleur blanc && s'il na pas de compontent && si la liste du mouvements possible ne contients pas cette case
 		if( i-1>=0 && j+1<=18 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC  && getCase(i-1,j+1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-1,j+1))){
-			mouvementsPossibles.add(new Coordonees(i-1,j+1));
+			mouvementsPossibles.add(new Coordonees(i-1,j+1));  // On ajoute la case dans mouvements possible
 		}
+		//Ainsi, si la case d'haut droite a un component
 		else if( i-1>=0 && j+1<=18 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-1,j+1).getComponentCount()!=0){
+			//Si la case d'haut a droite de la case haut droite qu'on avait avant est blanc, n'a pas de component et n'est pas dans mouvements possible
 			if(i-2>=0 && j+2<=18 && getCase(i-2, j+2).getCouleur()==Couleur_du_case.BLANC &&  getCase(i-2,j+2).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-2,j+2))) {
 				Coordonees aAjouter = new Coordonees(i-2,j+2);
-				aAjouter.dejaSaute=true;
-				mouvementsPossibles.add(aAjouter);
+				aAjouter.dejaSaute=true; //Deja saute est vrai
+				mouvementsPossibles.add(aAjouter); //ajoute dans mouvements possibles
 			}
 		}
 		//DIRECTION 1 -  BAS DROITE
@@ -464,17 +467,18 @@ public class Plateau extends JPanel {
 
 	}
 
-	//Methode qui ajoute les mouvements supplementaires au caus oú il est possible de sauter en plus
+	//Methode qui ajoute les mouvements supplementaires au cas oú il est possible de sauter  plusieurs fois
 	private void ajouterSautsPossibles(Coordonees c){
-		if(c.dejaSaute) {
+		if(c.dejaSaute) { //Si deja saute est vrai
 			int i = c.getI();
 			int j = c.getJ();
-			//DIRECTION 0 - HAUT DROITE
+			//DIRECTION 0 - HAUT DROITE - Si la case de haut droite est blanc et n'a pas de component
 			if (i - 1 >= 0 && j + 1 <= 18 && getCase(i - 1, j + 1).getCouleur() == Couleur_du_case.BLANC && getCase(i - 1, j + 1).getComponentCount() != 0 ) {
+				//Si la case haut droite de la case haut droite d'avant est blanc, n'a pas de component et n'est pas dans mouvements possible
 				if (i - 2 >= 0 && j + 2 <= 18 && getCase(i - 2, j + 2).getCouleur() == Couleur_du_case.BLANC && getCase(i - 2, j + 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i - 2, j + 2))) {
 					Coordonees aAjouter = new Coordonees(i-2,j+2);
-					aAjouter.dejaSaute=true;
-					mouvementsPossibles.add(aAjouter);
+					aAjouter.dejaSaute=true; //deja saute est vrai et on continue
+					mouvementsPossibles.add(aAjouter); //on ajoute dans mouvements possibles
 				}
 			}
 			//DIRECTION 1 -  BAS DROITE
@@ -525,10 +529,10 @@ public class Plateau extends JPanel {
 	private void ajouterSauts(){
 		int size = 0;
 		while (mouvementsPossibles.size()!=size){
-			size=mouvementsPossibles.size();
+			size=mouvementsPossibles.size(); //La taille de mouvements possibles serait egal a la  size quand il n'ya plus de mouvements possibles a ajouter
 			for(int a=0; a<mouvementsPossibles.size();a++){
 				Coordonees c = mouvementsPossibles.get(a);
-				ajouterSautsPossibles(c);
+				ajouterSautsPossibles(c); //On ajoute tous les sautes possibles  dans la liste de mouvements possibles
 			}
 
 		}
