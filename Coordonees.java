@@ -11,11 +11,11 @@ public class Coordonees {
 
     public int getI(){      // méthode qui donne la valeur de la ligne
         return i;
-    }
+    } //Pour retourner i
 
     public int getJ(){      // méthode qui donne la valeur de la colonne
         return j;
-    }
+    } //Pour retourner j
 
     public boolean equals(Object o){    // méthode qui retourne les mêmes coordonnées que l'objet o 
         Coordonees c = (Coordonees)o;
@@ -24,5 +24,5 @@ public class Coordonees {
 
     public String toString(){  // méthode qui retourne la valeur de la ligne et de la colonne
         return "i="+i+" || j="+j;
-    }
+    } //Methode toString
 }

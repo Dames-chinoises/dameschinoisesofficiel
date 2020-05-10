@@ -229,7 +229,7 @@ public class Plateau extends JPanel {
 				getCase(i, j).validate();	// La méthode validate() permet de demander la validation des données d'un Javabean (je sais pas trop ce que c'est...)
 				getCase(i, j).repaint();	// met à jour le panel
 			}
-			
+
 			if(tours.size() != 1) { //Si la liste contients plus d'un tour on pase au prochain tour
 				tourActuel = tourActuel.prochainNode;
 				setTourActuel();
@@ -241,6 +241,7 @@ public class Plateau extends JPanel {
 				finiJaune = true;
 				finiRose = true;
 				setFinis();//On les change s'ils sont en vrai true
+
 				if(finiVert == true) { // Si le vert est fini (c'est a dire a mis tout les pions dans le triangle rouge) il est enleve de la liste
 					tours.remove(tour.tourVERT);
 				} if(finiRouge == true) {
@@ -399,6 +400,7 @@ public class Plateau extends JPanel {
 	//Methode qui ajoute les premiers mouvements possibles dans la liste Mouvements Possibles
 	private void getMouvementsPossibles(int i, int j){
 		//DIRECTION 0 - HAUT DROITE  - //Si la case du haut droite est de couleur blanc && s'il na pas de compontent && si la liste du mouvements possible ne contients pas cette case
+
 		if( i-1>=0 && j+1<=18 && getCase(i-1, j+1).getCouleur()==Couleur_du_case.BLANC  && getCase(i-1,j+1).getComponentCount()==0&& !mouvementsPossibles.contains(new Coordonees(i-1,j+1))){
 			mouvementsPossibles.add(new Coordonees(i-1,j+1));  // On ajoute la case dans mouvements possible
 		}
@@ -469,13 +471,14 @@ public class Plateau extends JPanel {
 
 	}
 
-	//Methode qui ajoute les mouvements supplementaires au caus oú il est possible de sauter en plus
+	//Methode qui ajoute les mouvements supplementaires au cas oú il est possible de sauter  plusieurs fois
 	private void ajouterSautsPossibles(Coordonees c){
 		if(c.dejaSaute) { //Si deja saute est vrai
 			int i = c.getI();
 			int j = c.getJ();
 			//DIRECTION 0 - HAUT DROITE - Si la case de haut droite est blanc et n'a pas de component
 			if (i - 1 >= 0 && j + 1 <= 18 && getCase(i - 1, j + 1).getCouleur() == Couleur_du_case.BLANC && getCase(i - 1, j + 1).getComponentCount() != 0 ) {
+				//Si la case haut droite de la case haut droite d'avant est blanc, n'a pas de component et n'est pas dans mouvements possible
 				if (i - 2 >= 0 && j + 2 <= 18 && getCase(i - 2, j + 2).getCouleur() == Couleur_du_case.BLANC && getCase(i - 2, j + 2).getComponentCount() == 0 && !mouvementsPossibles.contains(new Coordonees(i - 2, j + 2))) {
 					Coordonees aAjouter = new Coordonees(i-2,j+2);
 					aAjouter.dejaSaute=true; //deja saute est vrai et on continue
