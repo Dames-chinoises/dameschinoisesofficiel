@@ -266,6 +266,7 @@ public class Plateau extends JPanel {
 				fin.setLocationRelativeTo(null);
 				fin.setSize(160,120);
 				fin.setVisible(true);
+				fin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			}
 
 		caseActive.removeAll(); // on enlève le pion de sa case précédente

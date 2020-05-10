@@ -7,7 +7,6 @@ import javax.swing.border.EmptyBorder;
 public class Jeu extends JFrame{
     
     public Jeu(){
-		//On cree une JFrame pour choisir le nombre de joueurs
 		JLabel nb = new JLabel("Veuillez choisir le nombre de joueurs: ");
 		JLabel mode = new JLabel("Veuillez choisir le mode de jeu: ");
 		JPanel menu1 = new JPanel();
@@ -18,17 +17,21 @@ public class Jeu extends JFrame{
 		menu1.setBorder(new EmptyBorder(new Insets(0, 20, 0, 0))); 
 		menu2.setLayout(boxlayout2);
 		menu2.setBorder(new EmptyBorder(new Insets(0, 0, 0, 20)));
-		//On cree des JRadiosButtons pour pouvoir jouer en fonction de nombre de joueurs et du mode de jeu
+		//On cree des JRadiosButtons pour pouvoir jouer en fonction de nombre de joueurs
 		JRadioButton nb2 = new JRadioButton("2");
 		JRadioButton nb3 = new JRadioButton("3");
 		JRadioButton nb4 = new JRadioButton("4");
 		JRadioButton nb6 = new JRadioButton("6");
+		//On met les jradiobutton pour choisir le nombre de joueurs dans un meme groupe pour choisir qu'un seul
 		ButtonGroup group1= new ButtonGroup();
 		group1.add(nb2);
 		group1.add(nb3);
 		group1.add(nb4);
 		group1.add(nb6);
+		//On met les jradiobutton pour choisir le mode de jeu dans un meme groupe pour choisir qu'un seul
 		ButtonGroup group2= new ButtonGroup();
+		//On cree des JRadiosButtons pour pouvoir jouer en fonction de mode de jeu
+		//Le mode de jeu soit on affiche les movements possibles en bleu ou non
 		JRadioButton modefacile = new JRadioButton("Facile");
 		JRadioButton modedifficile = new JRadioButton("Difficile");
 		group2.add(modefacile);
@@ -52,6 +55,8 @@ public class Jeu extends JFrame{
 		//Le JButton modejeubutton cree une nouvelle JFrame pour pouvoir jouer en fonction de nombre de joueurs et le mode de jeu soit on affiche les movements possibles en bleu ou non
 		JButton modejeubutton=new JButton("Set");
 		menu2.add(modejeubutton);
+		add(menu1,BorderLayout.WEST);
+		add(menu2,BorderLayout.EAST);
 		modejeubutton.addActionListener(new ActionListener(){
 		public void actionPerformed(ActionEvent e) {
 			boolean modejeu=true;
@@ -125,13 +130,10 @@ public class Jeu extends JFrame{
 			 
 		}
 	});
-		
-		add(menu1,BorderLayout.WEST);
-		add(menu2,BorderLayout.EAST);
-	
 }
 	
 	public static void main(String[] arg){
+		//On cree une JFrame pour choisir le nombre de joueurs et le mode de jeu
 		Jeu plateau_de_jeu = new Jeu();
 		plateau_de_jeu.setTitle("Dames chinoises");
 		plateau_de_jeu.setSize(500,210);
