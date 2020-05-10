@@ -73,14 +73,14 @@ public class Jeu extends JFrame{
 					paneltours.add(tourj);
 					plateau_de_jeu.add(paneltours,BorderLayout.NORTH);
 				}else if(nb4.isSelected()){
-					Plateau plateau = new Plateau(3,modejeu);	//Creation du jeu
+					Plateau plateau = new Plateau(4,modejeu);	//Creation du jeu
 					plateau_de_jeu.add(plateau,BorderLayout.CENTER);
 					JLabel tourj = plateau.getTourActuel(); //JLabel pour obtenir le tour actuel
 					JPanel paneltours=new JPanel();
 					paneltours.add(tourj);
 					plateau_de_jeu.add(paneltours,BorderLayout.NORTH);
 				}else if(nb6.isSelected()){
-					Plateau plateau = new Plateau(3,modejeu);	//Creation du jeu
+					Plateau plateau = new Plateau(6,modejeu);	//Creation du jeu
 					plateau_de_jeu.add(plateau,BorderLayout.CENTER);
 					JLabel tourj = plateau.getTourActuel(); //JLabel pour obtenir le tour actuel
 					JPanel paneltours=new JPanel();
@@ -104,14 +104,14 @@ public class Jeu extends JFrame{
 					paneltours.add(tourj);
 					plateau_de_jeu.add(paneltours,BorderLayout.NORTH);
 				}else if(nb4.isSelected()){
-					Plateau plateau = new Plateau(3,modejeu);	//Creation du jeu
+					Plateau plateau = new Plateau(4,modejeu);	//Creation du jeu
 					plateau_de_jeu.add(plateau,BorderLayout.CENTER);
 					JLabel tourj = plateau.getTourActuel(); //JLabel pour obtenir le tour actuel
 					JPanel paneltours=new JPanel();
 					paneltours.add(tourj);
 					plateau_de_jeu.add(paneltours,BorderLayout.NORTH);
 				}else if(nb6.isSelected()){
-					Plateau plateau = new Plateau(3,modejeu);	//Creation du jeu
+					Plateau plateau = new Plateau(6,modejeu);	//Creation du jeu
 					plateau_de_jeu.add(plateau,BorderLayout.CENTER);
 					JLabel tourj = plateau.getTourActuel(); //JLabel pour obtenir le tour actuel
 					JPanel paneltours=new JPanel();
