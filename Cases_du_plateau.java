@@ -12,6 +12,7 @@ public class Cases_du_plateau extends JPanel {
 	
 	private Couleur_du_case couleur;
 	private boolean selectionnee;
+	private boolean modejeu;
 	
 	public Cases_du_plateau(Couleur_du_case couleur){		// on crée l'objet case du plateau
 		this.couleur=couleur;
@@ -51,14 +52,23 @@ public class Cases_du_plateau extends JPanel {
 		return selectionnee;
 	}
 
-	public void setSelectionnee(boolean selectionnee) {  // si selectionnee=true, la case est coloriée en bleue sinon on laisse la case dans sa couleur d'origine
+	public void setSelectionnee(boolean selectionnee,boolean modejeu) {  // si selectionnee=true et modejeu=true, la case est coloriée en bleue si modejeu=false on laisse la case dans sa couleur d'origine
 		this.selectionnee = selectionnee;
-		if(selectionnee){
-			setBackground(Color.BLUE);
-			setForeground(Color.LIGHT_GRAY);
-		}
-		else {
+		this.modejeu = modejeu;
+		if (modejeu){
+			if(selectionnee){
+				setBackground(Color.BLUE);
+				setForeground(Color.LIGHT_GRAY);
+			}else {
 			initialisationCouleur();
+			}
+		}else{
+			if(selectionnee){
+			setForeground(Color.WHITE);
+			}
+			else {
+				initialisationCouleur();
+			}
 		}
 	}
 	
